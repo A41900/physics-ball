@@ -1,0 +1,28 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  font-family: system-ui, sans-serif;
+  background: #030303;
+}
+
+
+#game {
+  width: 800px;
+  height: 450px;
+  border: 2px solid #ff0000;
+  position: relative;
+  background: white;
+  overflow: hidden;
+}
+
+#player {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgb(182, 35, 9);
+  position: absolute;
+}
