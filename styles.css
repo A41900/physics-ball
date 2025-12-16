@@ -26,3 +26,43 @@ body {
   background: rgb(182, 35, 9);
   position: absolute;
 }
+
+#game-over-box {
+  position: absolute;
+  inset: 0; 
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 10;
+}
+
+#game-over-box.hidden {
+  display: none;
+}
+
+
+.game-over-panel {
+  padding: 60px 100px;
+  background: black;
+  color: white;
+  font-size: 48px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-align: center;
+
+  border: 4px solid red;          /* primeira borda */
+  outline: 4px solid red;         /* segunda borda */
+  outline-offset: 8px;            /* distância entre bordas */
+}
+
+.platform {
+  position: absolute;
+  background: #828080;
+  border-radius: 4px;
+}
+
+
+.obstacle {
+  position: absolute;
+  background: rgb(19, 81, 189);
+}
