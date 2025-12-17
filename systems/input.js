@@ -3,9 +3,11 @@ export function createInput() {
     left: false,
     right: false,
     jump: false,
+    any: false
   };
 
   window.addEventListener("keydown", e => {
+    input.any = true;
     if (e.key === "ArrowLeft") input.left = true;
     if (e.key === "ArrowRight") input.right = true;
     if (e.key === "ArrowUp") input.jump = true;
@@ -18,3 +20,5 @@ export function createInput() {
 
   return input;
 }
+
+

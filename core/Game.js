@@ -21,6 +21,12 @@ export default class Game {
 
     this.running = true;
     this.time = new Time();
+
+    this.music = new Audio("./assets/arcade.wav");
+    this.musicStarted = false;
+    this.music.loop = true;
+    this.music.volume = 0.2;
+
   }
 
   start() {
@@ -38,11 +44,18 @@ export default class Game {
 
   
   update(dt) {
+
+    if (this.input.any && !this.musicStarted) {
+      this.music.play();
+      this.musicStarted = true;
+    }
+
     this.world.x += CONFIG.world.speed * dt;
     this.player.update(this.input, dt);
     this.collisions.resolvePlayer(this.player);
 
     if (this.checkGameOver()) {
+      this.music.pause();
       this.running = false;
     }
   }
@@ -61,4 +74,13 @@ export default class Game {
     }
     return false;
   }
+  startMusic() {
+  if (!this.musicStarted) {
+    this.music.play();
+    this.musicStarted = true;
+  }
 }
+
+
+}
+

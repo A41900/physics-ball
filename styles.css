@@ -15,9 +15,15 @@ body {
   height: 450px;
   border: 2px solid #ff0000;
   position: relative;
-  background: white;
   overflow: hidden;
+
+  background-image: url("./assets/fundo.png");
+
+  background-repeat: repeat-x;          /* loop horizontal */
+  background-size: auto 100%;           /* ALTURA = jogo */
+  background-position: 0 bottom;        /* alinha chão */
 }
+
 #player {
   position: absolute;
 }
