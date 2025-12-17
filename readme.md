@@ -27,7 +27,7 @@ This project is still in progress.
 So far, the hardest part has been tuning movement to feel right while keeping
 the code simple. I expect more challenges as I continue developing it.
 
-🌸 Notes
+## Notes
 This is an ongoing learning project and not a finished game.
 The code prioritizes clarity and experimentation over optimization.
 Built alone as a personal learning project.
