@@ -35,6 +35,8 @@ export default class Game {
     requestAnimationFrame(this.loop.bind(this));
   }
 
+
+  
   update(dt) {
     this.world.x += CONFIG.world.speed * dt;
     this.player.update(this.input, dt);

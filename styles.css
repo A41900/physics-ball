@@ -18,12 +18,24 @@ body {
   background: white;
   overflow: hidden;
 }
-
 #player {
-  border-radius: 50%;
-  background: rgb(182, 35, 9);
   position: absolute;
 }
+
+#player img {
+  position: absolute;
+  
+  width: auto;
+  height: 30px;
+
+  left: 50%;
+  bottom: 0;
+
+  transform: translateX(-50%);
+  pointer-events: none;
+  user-select: none;
+}
+
 
 #game-over-box {
   position: absolute;

@@ -21,6 +21,13 @@ export default class Player extends RenderableEntity {
         this.el.id = "player";
         this.el.style.width = width + "px";
         this.el.style.height = height + "px";
+
+        /*testing LMAO*/
+        this.sprite = document.createElement("img");
+        this.sprite.src = "assets/pinkbear.png"; 
+        this.sprite.draggable = false;
+        this.el.appendChild(this.sprite);
+
     }
 
     update(input, dt) {
@@ -28,7 +35,45 @@ export default class Player extends RenderableEntity {
         this.handleJump(input);
         this.applyGravity(dt);
         this.applyMovement(dt);
+        this.updateSprite(input)
     }
+
+    /*jUST testing an img*/
+    updateSprite(input) {
+        // direção
+        if (input.left) this.facing = "left";
+        if (input.right) this.facing = "right";
+
+        // estado
+        if (!this.onGround) {
+            this.state = "jump";
+        } 
+        else if (Math.abs(this.vx) > 150) {
+            this.state = "run";
+        } 
+        else if (Math.abs(this.vx) > 5) {
+            this.state = "walk";
+        } 
+        else {
+            this.state = "idle";
+        }
+
+        // escolher imagem
+        let src = "assets/pinkbear.png";
+
+        if (this.state === "jump") src = "assets/jump.png";
+        if (this.state === "run") src = "assets/run.png";
+
+        this.sprite.src = src;
+
+        // virar sprite
+        if (this.facing === "left") {
+            this.sprite.style.transform = "translateX(-50%) scaleX(-1)";
+        } else {
+            this.sprite.style.transform = "translateX(-50%) scaleX(1)";
+        }
+        }
+
 
     updateHorizontal(input, dt) {
         let targetVx = 0;
