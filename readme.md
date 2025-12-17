@@ -1,9 +1,5 @@
   # 🌸 Physics Ball – Movement & Physics Experiment Demo
 
-This project started because I wanted a project on GitHub and I enjoy making
-games. I'm also interested in physics, so I decided to experiment with movement
-instead of building a full game.
-
 ## Live Demo
 > https://a41900.github.io/physics-ball/
 
