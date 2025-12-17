@@ -1,4 +1,4 @@
-import Platform from "./Platform.js";
+import Platform from "../entities/Platform.js";
 
 export default class Level {
   constructor(levelNumber, gameEl) {
@@ -11,8 +11,8 @@ export default class Level {
     this.platforms.forEach(p => p.attach(this.gameEl));
   }
 
-  update(worldX) {
-    this.platforms.forEach(p => p.update(worldX));
+  render(worldX) {
+    this.platforms.forEach(p => p.render(worldX));
   }
 
   destroy() {
@@ -35,7 +35,6 @@ export default class Level {
     }
   }
   
-
 }
 
 
