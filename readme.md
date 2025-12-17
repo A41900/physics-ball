@@ -1,85 +1,36 @@
-# 🔴 Physics Ball – JavaScript Movement & Physics Demo
+🌸 Physics Ball – Movement & Physics Experiment (Vanilla JS)
 
-> TL;DR: Vanilla JavaScript game experiment focused on movement physics and clean architecture.
+This project started because I wanted a project on GitHub and I enjoy making
+games. I'm also interested in physics, so I decided to experiment with movement
+instead of building a full game.
 
-A small **vanilla JavaScript** game experiment exploring player movement, gravity, input handling, and overall game feel.
-This project focuses on **clean state management, separation of concerns, and responsive controls**
-rather than visual complexity or frameworks.
-
----
-## 🌐 Live Demo
-
+🌸 Live Demo
 https://a41900.github.io/physics-ball/
 
----
+🌸 Purpose
+The goal of this project is to explore player movement, gravity, and input
+handling using only vanilla JavaScript.
 
-## 🎯 Purpose
+Rather than focusing on visuals or polish, I wanted to understand how movement
+actually works and how small changes affect game feel.
 
-The goal of this mini-project was to practice **core JavaScript fundamentals**
-through a non-trivial interactive system.
+🌸 What I've learned so far
+- Finding the “right” movement depends a lot on position updates and timing
+- Using delta time is essential — movement felt completely different when
+  testing on another machine
+- Starting with one large script made the code hard to reason about
+- Gradually splitting logic into smaller modules made the project easier to
+  maintain and understand
+- Keeping the architecture modular from the beginning helps avoid refactors later
 
-Specifically, it explores:
-- How keyboard input translates into motion
-- Separation between **input**, **game logic**, and **rendering**
-- Gravity, jumping, momentum, and movement tuning
-- Debugging behavior-based issues (not just syntax errors)
-- Designing a small but **scalable game architecture**
+🌸 Current challenges
+This project is still in progress.
 
----
+So far, the hardest part has been tuning movement to feel right while keeping
+the code simple. I expect more challenges as I continue developing it.
 
-## 🕹️ Controls
+🌸 Notes
+This is an ongoing learning project and not a finished game.
+The code prioritizes clarity and experimentation over optimization.
 
-- **← / →** — Move horizontally  
-- **↑** — Jump (single press)
-
----
-
-## 🧠 Technical Highlights
-
-- `requestAnimationFrame`-based game loop with delta time
-- State-driven player movement (`position`, `velocity`)
-- Event-based jump handling (prevents repeated jumping)
-- Smooth acceleration and deceleration
-- Physics-inspired tuning for responsive movement
-- Clear separation between world coordinates and screen rendering
-- Modular structure:
-  - `Game`
-  - `Player`
-  - `Collision`
-  - `Input`
-  - `Time`
-
-> No frameworks were used — the goal was to strengthen core JavaScript and architectural understanding.
-
----
-
-## 🛠️ Technologies
-
-- JavaScript (Vanilla)
-- HTML5
-- CSS3
-
----
-
-## 📌 Notes
-
-This project was developed iteratively, with multiple refactors focused on
-movement feel, architecture, and code clarity.
-
-It is intended as a **learning and experimentation project**, not a finished game.
-
----
-
-## 🚀 Possible Improvements
-
-- Improve platform collision handling (edges and sides)
-- Add moving platforms and obstacles
-- Camera smoothing and easing
-- Visual feedback (squash/stretch)
-- Difficulty progression across levels
-
----
-
-## 👩‍💻 Author
-
-Developed independently as part of my learning journey in JavaScript and front-end development.
+Built alone as a personal learning project.
