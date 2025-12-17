@@ -5,12 +5,11 @@ games. I'm also interested in physics, so I decided to experiment with movement
 instead of building a full game.
 
 🌸 Live Demo
-https://a41900.github.io/physics-ball/
+> https://a41900.github.io/physics-ball/
 
 🌸 Purpose
 The goal of this project is to explore player movement, gravity, and input
 handling using only vanilla JavaScript.
-
 Rather than focusing on visuals or polish, I wanted to understand how movement
 actually works and how small changes affect game feel.
 
@@ -25,12 +24,10 @@ actually works and how small changes affect game feel.
 
 🌸 Current challenges
 This project is still in progress.
-
 So far, the hardest part has been tuning movement to feel right while keeping
 the code simple. I expect more challenges as I continue developing it.
 
 🌸 Notes
 This is an ongoing learning project and not a finished game.
 The code prioritizes clarity and experimentation over optimization.
-
 Built alone as a personal learning project.
