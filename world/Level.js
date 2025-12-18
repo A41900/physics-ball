@@ -2,28 +2,18 @@ import Obstacle from "../entities/Obstacle.js";
 import Platform from "../entities/Platform.js";
 
 export default class Level {
-  constructor(levelNumber, gameEl) {
-    this.gameEl = gameEl;
+  constructor(levelNumber, worldHeight) {
     this.platforms = Level.createPlatforms(levelNumber);
     this.obstacles = Level.createObstacles(levelNumber);
+
     this.endX = 1000;
-    this.deathY = this.gameEl.clientHeight + 40;
     this.deathX = 40;
-  }
-
-  load() {
-    this.platforms.forEach((p) => p.attach(this.gameEl));
-    this.obstacles.forEach((p) => p.attach(this.gameEl));
-  }
-
-  render(worldX) {
-    this.platforms.forEach((p) => p.render(worldX));
-    this.obstacles.forEach((p) => p.render(worldX));
+    this.deathY = worldHeight + 40;
   }
 
   destroy() {
-    this.platforms.forEach((p) => p.el.remove());
     this.platforms = [];
+    this.obstacles = [];
   }
 
   static createPlatforms(levelNumber) {
@@ -53,18 +43,10 @@ export default class Level {
       case 1:
         return [
           new Obstacle({
-            x: 1500,
-            y: 450,
-            width: 100,
-            height: 100,
-            sprite: "assets/castle.png",
-            type: "",
-          }),
-          new Obstacle({
             x: 1400,
             y: 400,
+            width: 100,
             height: 160,
-            sprite: "",
             type: "goal",
           }),
         ];

@@ -130,9 +130,9 @@ This migration is ongoing.
 
 ---
 
-## Open Questions / Next Focus
+## Phase 8 — Finalizing RenderSystem Migration
 
-- Completing the RenderSystem migration for remaining entities
-- Cleaning up legacy rendering paths
-- Evaluating whether RenderableEntity should be removed entirely
-- Continuing to balance structure with flexibility as features grow
+Rendering responsibilities were fully migrated into the RenderSystem.
+RenderableEntity was removed and Level no longer handles DOM or rendering logic.
+
+## This marks the completion of the transition to a data + systems architecture.

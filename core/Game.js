@@ -28,8 +28,8 @@ export default class Game {
 
     this.entities = {
       player: this.player,
-      // platforms: this.level.platforms,
-      // obstacles: this.level.obstacles,
+      platforms: this.level.platforms,
+      obstacles: this.level.obstacles,
     };
 
     this.level = new Level(1, gameEl);
@@ -92,14 +92,9 @@ export default class Game {
         break;
     }
 
-    this.render();
+    RenderSystem(this.world, this.entities, this.theme, this.gameEl);
     this.input.update();
     requestAnimationFrame(this.loop.bind(this));
-  }
-
-  render() {
-    RenderSystem(this.world, this.entities, this.theme, this.gameEl);
-    this.level.render(this.world.x);
   }
 
   checkTransitions() {

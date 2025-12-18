@@ -1,19 +1,15 @@
-import RenderableEntity from "./RenderableEntity.js";
+import Entity from "./Entity.js";
 import { CONFIG } from "../config.js";
 
-export default class Player extends RenderableEntity {
-  constructor(x, y, width, height, theme) {
+export default class Player extends Entity {
+  constructor(x, y, width, height) {
     super(x, y, width, height);
-
-    this.theme = theme;
 
     this.vx = 0;
     this.vy = 0;
     this.onGround = false;
-
     this.facing = "right";
     this.state = "idle";
-
     this.mass = width / 16;
     this.physics = {
       gravity: CONFIG.physics.gravity * this.mass,
