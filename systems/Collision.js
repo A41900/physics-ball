@@ -7,7 +7,7 @@ export default class Collision {
   resolvePlayer(player) {
     player.onGround = false;
     this.resolvePlatformCollisions(player);
-    this.resolveGroundCollision(player);
+    /*this.resolveGroundCollision(player);*/
   }
 
   resolvePlatformCollisions(player) {

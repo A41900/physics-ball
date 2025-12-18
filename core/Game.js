@@ -4,8 +4,8 @@ import Collision from "../systems/Collision.js";
 import { createInput } from "../systems/input.js";
 import { CONFIG } from "../config.js";
 import Time from "./Time.js";
-import GameRules from "./GameRules.js";
 import GameState from "./GameState.js";
+import MusicManager from "./MusicManager.js";
 
 export default class Game {
   constructor(gameEl) {
@@ -23,19 +23,38 @@ export default class Game {
 
     this.level = new Level(1, gameEl);
     this.level.load();
-
     this.collisions = new Collision(gameEl, this.level);
 
+    this.music = new MusicManager();
+    this.started = false;
     this.time = new Time();
-
-    this.music = new Audio("./assets/arcade.wav");
-    this.musicStarted = false;
-    this.music.loop = true;
-    this.music.volume = 0.2;
+    this.screenBottom = this.gameEl.clientHeight;
 
     this.overlay = document.getElementById("game-overlay");
     this.overlayText = document.getElementById("overlay-text");
+
     this.state = new GameState();
+
+    this.state.on("playing", () => console.log(" PLAYING EVENT"));
+    this.state.on("paused", () => console.log(" PAUSED EVENT"));
+    this.state.on("gameover", () => console.log(" GAMEOVER EVENT"));
+    this.state.on("levelover", () => console.log(" LEVELOVER EVENT"));
+
+    this.state.on("playing", () => {
+      this.music.resume();
+    });
+
+    this.state.on("paused", () => {
+      this.music.pause();
+    });
+
+    this.state.on("gameover", () => {
+      this.music.play("death");
+    });
+
+    this.state.on("levelover", () => {
+      this.music.play("victory");
+    });
   }
   start() {
     requestAnimationFrame(this.loop.bind(this));
@@ -45,7 +64,6 @@ export default class Game {
     const dt = this.time.delta(time);
 
     this.handleInput();
-    this.handleMusic();
 
     switch (this.state.get()) {
       case "gameover":
@@ -81,17 +99,13 @@ export default class Game {
   checkTransitions() {
     if (this.playerIsDead()) {
       this.state.setGameOver();
-      this.music.pause();
       return;
     }
-
-    if (this.levelIsComplete()) {
-      this.state.setLevelOver();
-    }
+    this.levelIsComplete();
   }
 
   updateSimulation(dt) {
-    if (!this.state.isLevelOver()) {
+    if (!this.cameraStops()) {
       this.world.x += CONFIG.world.speed * dt;
     }
 
@@ -100,22 +114,15 @@ export default class Game {
   }
 
   handleInput() {
+    if (this.input.any && !this.started) {
+      this.started = true;
+      this.music.unlock();
+      this.music.play("arcade");
+      return; //  evita pause no mesmo frame
+    }
+
     if (this.input.justPressed("space")) {
       this.state.togglePause();
-    }
-  }
-
-  /* migrar p audio manager */
-  handleMusic() {
-    if (this.input.any && !this.musicStarted) {
-      this.music.play();
-      this.musicStarted = true;
-    }
-  }
-  startMusic() {
-    if (!this.musicStarted) {
-      this.music.play();
-      this.musicStarted = true;
     }
   }
 
@@ -131,7 +138,10 @@ export default class Game {
     this.overlayText.textContent = "GAME PAUSED";
   }
 
-  showLevelOver() {}
+  showLevelOver() {
+    this.overlay.classList.remove("hidden");
+    this.overlayText.textContent = "LEVEL UP :)";
+  }
 
   hideOverlay() {
     this.overlay.classList.add("hidden");
@@ -139,10 +149,24 @@ export default class Game {
 
   playerIsDead() {
     const screenX = this.player.x - this.world.x;
-    return screenX + this.player.width <= 0;
+    const offLeft = screenX + this.player.width < -this.level.deathX;
+    const offBottom = this.player.y > this.level.deathY;
+    return offLeft || offBottom;
+  }
+
+  cameraStops() {
+    return this.world.x >= this.level.endX;
   }
 
   levelIsComplete() {
-    return this.world.x >= this.level.endX;
+    // verificar colisão com GOAL
+    const reachedGoal = this.level.obstacles.some(
+      (obstacle) => obstacle.type === "goal" && obstacle.hits(this.player)
+    );
+    if (reachedGoal) {
+      this.state.setLevelOver();
+      return true;
+    }
+    return false;
   }
 }

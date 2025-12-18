@@ -6,7 +6,9 @@ export default class Level {
     this.gameEl = gameEl;
     this.platforms = Level.createPlatforms(levelNumber);
     this.obstacles = Level.createObstacles(levelNumber);
-    this.endX = 900;
+    this.endX = 1000;
+    this.deathY = this.gameEl.clientHeight + 40;
+    this.deathX = 40;
   }
 
   load() {
@@ -28,6 +30,7 @@ export default class Level {
     switch (levelNumber) {
       case 1:
         return [
+          new Platform(130, 300, 130, 10),
           new Platform(260, 380, 130, 10),
           new Platform(420, 340, 130, 10),
           new Platform(650, 280, 160, 12),
@@ -55,6 +58,13 @@ export default class Level {
             width: 100,
             height: 100,
             sprite: "assets/castle.png",
+            type: "",
+          }),
+          new Obstacle({
+            x: 1400,
+            y: 400,
+            height: 160,
+            sprite: "",
             type: "goal",
           }),
         ];
