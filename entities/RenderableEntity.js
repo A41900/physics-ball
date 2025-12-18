@@ -8,11 +8,11 @@ export default class RenderableEntity extends Entity {
 
   render(worldX) {
     if (!this.el) return;
-    this.el.style.left = (this.x - worldX) + "px";
+    this.el.style.left = this.x - worldX + "px";
     this.el.style.top = this.y + "px";
   }
 
   attach(parent) {
-     if (this.el)parent.appendChild(this.el);
+    if (this.el) parent.appendChild(this.el);
   }
 }

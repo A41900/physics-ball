@@ -14,7 +14,8 @@ export default class Platform extends RenderableEntity {
 
   canPlayerLand(player) {
     if (player.vy <= 0) return false;
-    const crossedTop = player.bottom - player.vy <= this.top && player.bottom >= this.top;
+    const crossedTop =
+      player.bottom - player.vy <= this.top && player.bottom >= this.top;
     return crossedTop && this.intersects(player);
   }
 }

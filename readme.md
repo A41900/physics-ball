@@ -1,15 +1,18 @@
-  # 🌸 Physics Ball – Movement & Physics Experiment Demo
+# 🌸 Physics Ball – Movement & Physics Experiment Demo
 
 ## Live Demo
+
 > https://a41900.github.io/physics-ball/
 
 ## Purpose
+
 The goal of this project is to explore player movement, gravity, and input
 handling using only vanilla JavaScript.
 Rather than focusing on visuals or polish, I wanted to understand how movement
 actually works and how small changes affect game feel.
 
 ## What I've learned so far
+
 - Finding the “right” movement depends a lot on position updates and timing
 - Using delta time is essential — movement felt completely different when
   testing on another machine
@@ -19,11 +22,13 @@ actually works and how small changes affect game feel.
 - Keeping the architecture modular from the beginning helps avoid refactors later
 
 ## Current challenges
+
 This project is still in progress.
 So far, the hardest part has been tuning movement to feel right while keeping
 the code simple. I expect more challenges as I continue developing it.
 
 ## Notes
+
 This is an ongoing learning project and not a finished game.
 The code prioritizes clarity and experimentation over optimization.
 Built alone as a personal learning project.

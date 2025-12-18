@@ -1,17 +1,17 @@
 <!doctype html>
 <html lang="pt">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Jogo - Ponto Controlável</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <div id="game">
-    <div id="game-over-box" class="hidden"> 
-      <span class="game-over-panel">GAME OVER </span>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Jogo - Ponto Controlável</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="game">
+      <div id="game-overlay" class="hidden">
+        <span id="overlay-text"></span>
+      </div>
     </div>
-  </div>
-  <script type="module" src="script.js"></script>
-</body>
+    <script type="module" src="script.js"></script>
+  </body>
 </html>

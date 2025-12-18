@@ -8,15 +8,15 @@ export default class Level {
   }
 
   load() {
-    this.platforms.forEach(p => p.attach(this.gameEl));
+    this.platforms.forEach((p) => p.attach(this.gameEl));
   }
 
   render(worldX) {
-    this.platforms.forEach(p => p.render(worldX));
+    this.platforms.forEach((p) => p.render(worldX));
   }
 
   destroy() {
-    this.platforms.forEach(p => p.el.remove());
+    this.platforms.forEach((p) => p.el.remove());
     this.platforms = [];
   }
 
@@ -34,7 +34,4 @@ export default class Level {
         return [];
     }
   }
-  
 }
-
-

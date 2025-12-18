@@ -11,7 +11,7 @@ export default class Collision {
   }
 
   resolvePlatformCollisions(player) {
-    this.level.platforms.forEach(platform => {
+    this.level.platforms.forEach((platform) => {
       if (platform.canPlayerLand(player)) {
         player.y = platform.top - player.height;
         player.vy = 0;
