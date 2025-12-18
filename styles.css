@@ -12,17 +12,20 @@ body {
 }
 
 #game {
-  width: 800px;
-  height: 450px;
+  width: 100vw;
+  height: 100vh;
   border: 2px solid #ff0000;
   position: relative;
   overflow: hidden;
 
-  background-image: url("./assets/fundo.png");
+  /*background-image: url("./assets/fundo.png");*/
+  background-repeat: no-repeat; /* não repetir */
+  background-position: center; /* centrar */
+  background-size: cover;
 
-  background-repeat: repeat-x; /* loop horizontal */
-  background-size: auto 100%; /* ALTURA = jogo */
-  background-position: 0 bottom; /* alinha chão */
+  /*background-repeat: repeat-x; /* loop horizontal */
+  /*background-size: auto 100%; /* ALTURA = jogo */
+  /*background-position: 0 bottom; /* alinha chão */
 }
 
 #game-overlay {

@@ -6,6 +6,8 @@ import { CONFIG } from "../config.js";
 import Time from "./Time.js";
 import GameState from "./GameState.js";
 import MusicManager from "./MusicManager.js";
+import { THEMES } from "../themes/index.js";
+import RenderSystem from "../systems/RenderSystem.js";
 
 export default class Game {
   constructor(gameEl) {
@@ -13,13 +15,22 @@ export default class Game {
     this.world = { x: 0 };
     this.input = createInput();
 
+    this.theme = THEMES.arcade;
+    this.applyTheme();
+
     this.player = new Player(
       200,
       200,
       CONFIG.player.width,
-      CONFIG.player.height
+      CONFIG.player.height,
+      this.theme
     );
-    this.player.attach(gameEl);
+
+    this.entities = {
+      player: this.player,
+      // platforms: this.level.platforms,
+      // obstacles: this.level.obstacles,
+    };
 
     this.level = new Level(1, gameEl);
     this.level.load();
@@ -34,11 +45,6 @@ export default class Game {
     this.overlayText = document.getElementById("overlay-text");
 
     this.state = new GameState();
-
-    this.state.on("playing", () => console.log(" PLAYING EVENT"));
-    this.state.on("paused", () => console.log(" PAUSED EVENT"));
-    this.state.on("gameover", () => console.log(" GAMEOVER EVENT"));
-    this.state.on("levelover", () => console.log(" LEVELOVER EVENT"));
 
     this.state.on("playing", () => {
       this.music.resume();
@@ -92,8 +98,8 @@ export default class Game {
   }
 
   render() {
+    RenderSystem(this.world, this.entities, this.theme, this.gameEl);
     this.level.render(this.world.x);
-    this.player.render(this.world.x);
   }
 
   checkTransitions() {
@@ -168,5 +174,10 @@ export default class Game {
       return true;
     }
     return false;
+  }
+
+  applyTheme() {
+    const bg = this.theme.background;
+    this.gameEl.style.background = `url("${bg.image}") ${bg.position} / ${bg.size} no-repeat`;
   }
 }

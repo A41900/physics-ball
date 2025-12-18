@@ -2,8 +2,17 @@ import RenderableEntity from "./RenderableEntity.js";
 import { CONFIG } from "../config.js";
 
 export default class Player extends RenderableEntity {
-  constructor(x, y, width, height) {
+  constructor(x, y, width, height, theme) {
     super(x, y, width, height);
+
+    this.theme = theme;
+
+    this.vx = 0;
+    this.vy = 0;
+    this.onGround = false;
+
+    this.facing = "right";
+    this.state = "idle";
 
     this.mass = width / 16;
     this.physics = {
@@ -12,21 +21,6 @@ export default class Player extends RenderableEntity {
       decel: CONFIG.physics.decel / this.mass,
       jumpForce: CONFIG.player.jumpForce / Math.sqrt(this.mass),
     };
-
-    this.vx = 0;
-    this.vy = 0;
-    this.onGround = false;
-
-    this.el = document.createElement("div");
-    this.el.id = "player";
-    this.el.style.width = width + "px";
-    this.el.style.height = height + "px";
-
-    /*testing LMAO*/
-    this.sprite = document.createElement("img");
-    this.sprite.src = "assets/pinkbear.png";
-    this.sprite.draggable = false;
-    this.el.appendChild(this.sprite);
   }
 
   update(input, dt) {
@@ -34,16 +28,15 @@ export default class Player extends RenderableEntity {
     this.handleJump(input);
     this.applyGravity(dt);
     this.applyMovement(dt);
-    this.updateSprite(input);
+    this.updateState(input);
   }
 
-  /*jUST testing an img*/
-  updateSprite(input) {
-    // direção
+  updateState(input) {
+    // direção lógica
     if (input.left) this.facing = "left";
     if (input.right) this.facing = "right";
 
-    // estado
+    // estado lógico
     if (!this.onGround) {
       this.state = "jump";
     } else if (Math.abs(this.vx) > 150) {
@@ -52,21 +45,6 @@ export default class Player extends RenderableEntity {
       this.state = "walk";
     } else {
       this.state = "idle";
-    }
-
-    // escolher imagem
-    let src = "assets/pinkbear.png";
-
-    if (this.state === "jump") src = "assets/jump.png";
-    if (this.state === "run") src = "assets/run.png";
-
-    this.sprite.src = src;
-
-    // virar sprite
-    if (this.facing === "left") {
-      this.sprite.style.transform = "translateX(-50%) scaleX(-1)";
-    } else {
-      this.sprite.style.transform = "translateX(-50%) scaleX(1)";
     }
   }
 
