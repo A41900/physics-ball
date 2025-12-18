@@ -58,9 +58,9 @@ body {
 
 .platform img {
   position: absolute;
-  margin-bottom: -55px; /* 👈 desce A SÉRIO */
+  margin-bottom: -55px;
   left: 50%;
-  bottom: 0; /* 🔥 ancora no fundo da hitbox */
+  bottom: 0;
   z-index: 2;
 
   transform: translateX(-50%);

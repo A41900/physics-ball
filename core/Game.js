@@ -57,7 +57,7 @@ export default class Game {
         break;
 
       case "levelover":
-        this.updateSimulation(dt); // mundo continua
+        this.updateSimulation(dt);
         this.showLevelOver();
         break;
 

@@ -1,34 +1,87 @@
-# 🌸 Physics Ball – Movement & Physics Experiment Demo
+# 🌸 Physics Ball — Movement, Physics & Game Logic Experiment
 
-## Live Demo
+**Live Demo**  
+https://a41900.github.io/physics-ball/
 
-> https://a41900.github.io/physics-ball/
+---
 
-## Purpose
+## Overview
 
-The goal of this project is to explore player movement, gravity, and input
-handling using only vanilla JavaScript.
-Rather than focusing on visuals or polish, I wanted to understand how movement
-actually works and how small changes affect game feel.
+Physics Ball started as a small experiment focused on understanding **player movement, gravity, and input handling** using **vanilla JavaScript only**.
 
-## What I've learned so far
+The project was never meant to begin as a full game. The initial goal was to understand _how movement actually works_ — how position updates, delta time, and physics parameters affect game feel.
 
-- Finding the “right” movement depends a lot on position updates and timing
-- Using delta time is essential — movement felt completely different when
-  testing on another machine
-- Starting with one large script made the code hard to reason about
-- Gradually splitting logic into smaller modules made the project easier to
-  maintain and understand
-- Keeping the architecture modular from the beginning helps avoid refactors later
+As the codebase evolved, the experiment naturally grew into a **simple level-based game prototype**, introducing platforms, obstacles, a scrolling camera, and a defined end-of-level goal.
 
-## Current challenges
+---
 
-This project is still in progress.
-So far, the hardest part has been tuning movement to feel right while keeping
-the code simple. I expect more challenges as I continue developing it.
+## Design & Technical Focus
+
+This project prioritizes **game feel and logic clarity** over visuals or polish.
+
+Key areas explored so far:
+
+- Player movement with gravity, acceleration, deceleration, and jumping
+- Delta time–based updates to ensure consistent behavior across machines
+- Collision detection and resolution
+- Camera scrolling independent from player movement
+- Modular architecture using ES modules (Player, Level, Collision, Input, Game Loop)
+
+A major part of development involved learning where **simplicity beats overengineering**, especially around game state and flow.
+
+---
+
+## Game Flow & State Handling
+
+Managing game flow turned out to be one of the most challenging aspects of the project.
+
+Through multiple iterations, I learned to:
+
+- Distinguish between stopping the **camera** and stopping the **world**
+- Avoid overcomplicating state management early
+- Keep game state explicit and readable
+
+The current implementation includes:
+
+- Playing, paused, and game-over states
+- A **level-over state** where the camera stops scrolling while the player and world simulation continue running
+
+This approach stabilized gameplay while keeping the logic understandable.
+
+---
+
+## Current Features
+
+- Physics-based player movement
+- Platform-based level layout
+- Obstacles and a visible level goal (castle)
+- Camera scrolling system
+- Pause and game-over handling
+- Level-over state with stopped camera
+- Modular, readable code structure
+
+---
+
+## Project Status & Next Steps
+
+This is an **ongoing learning project**, not a finished game.
+
+Current focus moving forward:
+
+- Restart and next-level flow
+- Small, intentional refactors
+- Further improving code organization without breaking working behavior
+
+The goal is to continue expanding the game while keeping the logic simple and understandable.
+
+---
 
 ## Notes
 
-This is an ongoing learning project and not a finished game.
-The code prioritizes clarity and experimentation over optimization.
-Built alone as a personal learning project.
+Built solo as a personal learning project.
+
+This codebase favors:
+
+- clarity over optimization
+- experimentation over polish
+- understanding _why_ systems work, not just _that_ they work
