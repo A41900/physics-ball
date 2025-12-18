@@ -25,16 +25,15 @@ export default class Game {
       CONFIG.player.height,
       this.theme
     );
+    this.level = new Level(1, gameEl);
+
+    this.collisions = new Collision(gameEl, this.level);
 
     this.entities = {
       player: this.player,
       platforms: this.level.platforms,
       obstacles: this.level.obstacles,
     };
-
-    this.level = new Level(1, gameEl);
-    this.level.load();
-    this.collisions = new Collision(gameEl, this.level);
 
     this.music = new MusicManager();
     this.started = false;

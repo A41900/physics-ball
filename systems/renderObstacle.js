@@ -14,11 +14,13 @@ export default function renderObstacle(obstacle, world, theme, gameEl) {
   }
 
   const img = obstacle.el.querySelector("img");
+
   // escolher sprite via theme
   const sprite = theme.obstacle[obstacle.type]?.sprite;
   if (sprite) {
     img.src = sprite;
   }
+
   // posicionar no mundo
   obstacle.el.style.left = obstacle.x - world.x + "px";
   obstacle.el.style.top = obstacle.y + "px";

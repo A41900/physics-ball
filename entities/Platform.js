@@ -1,4 +1,4 @@
-import RenderableEntity from "./RenderableEntity.js";
+import Entity from "./Entity.js";
 
 export default class Platform extends Entity {
   constructor(x, y, width, height) {
