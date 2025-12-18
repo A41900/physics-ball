@@ -9,15 +9,13 @@ https://a41900.github.io/physics-ball/
 
 Physics Ball started as a small experiment focused on understanding **player movement, gravity, and input handling** using **vanilla JavaScript only**.
 
-The project was never meant to begin as a full game. The initial goal was to understand _how movement actually works_ — how position updates, delta time, and physics parameters affect game feel.
+The project was never meant to begin as a full game. The initial goal was to understand _how movement actually works_ and how physics parameters affect game feel.
 
 As the codebase evolved, the experiment naturally grew into a **simple level-based game prototype**, introducing platforms, obstacles, a scrolling camera, and a defined end-of-level goal.
 
 ---
 
 ## Design & Technical Focus
-
-This project prioritizes **game feel and logic clarity** over visuals or polish.
 
 Key areas explored so far:
 
@@ -33,7 +31,7 @@ A major part of development involved learning where **simplicity beats overengin
 
 ## Game Flow & State Handling
 
-Managing game flow turned out to be one of the most challenging aspects of the project.
+Managing game flow turned out to be one of the most challenging aspects of the project so far.
 
 Through multiple iterations, I learned to:
 
