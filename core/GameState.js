@@ -3,29 +3,34 @@ export default class GameState {
     this.state = "playing";
   }
 
-  isPlaying() {
-    return this.state === "playing";
+  // usado no switch(this.state.get())
+  get() {
+    return this.state;
   }
 
-  isPaused() {
-    return this.state === "paused";
-  }
-
-  isGameOver() {
-    return this.state === "gameover";
-  }
-
+  // usado em handleInput()
   togglePause() {
     if (this.state === "gameover") return;
 
-    this.state = this.state === "paused" ? "playing" : "paused";
+    if (this.state === "paused") {
+      this.state = "playing";
+    } else if (this.state === "playing") {
+      this.state = "paused";
+    }
   }
 
+  // usado em checkTransitions()
   setGameOver() {
     this.state = "gameover";
   }
 
-  reset() {
-    this.state = "playing";
+  // usado em checkTransitions()
+  setLevelOver() {
+    this.state = "levelover";
+  }
+
+  // usado em updateSimulation()
+  isLevelOver() {
+    return this.state === "levelover";
   }
 }
