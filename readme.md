@@ -7,44 +7,36 @@ https://a41900.github.io/physics-ball/
 
 ## Overview
 
-Physics Ball started as a small experiment focused on understanding **player movement, gravity, and input handling** using **vanilla JavaScript only**.
+**Physics Ball** is a solo project built to explore **player movement, physics, and game logic** using **vanilla JavaScript only**.
 
-The project was never meant to begin as a full game. The initial goal was to understand _how movement actually works_ and how physics parameters affect game feel.
+What started as a small experiment focused on gravity and movement gradually evolved into a **simple level-based game prototype**, featuring platforms, obstacles, camera scrolling, and a defined level goal.
 
-As the codebase evolved, the experiment naturally grew into a **simple level-based game prototype**, introducing platforms, obstacles, a scrolling camera, and a defined end-of-level goal.
+The project prioritizes **understanding how systems work**, rather than visual polish or production features.
 
 ---
 
-## Design & Technical Focus
+## Technical Focus
 
-Key areas explored so far:
+This project explores:
 
-- Player movement with gravity, acceleration, deceleration, and jumping
-- Delta time–based updates to ensure consistent behavior across machines
+- Physics-based player movement (gravity, acceleration, jumping)
+- Delta time–based updates for consistent behavior
 - Collision detection and resolution
 - Camera scrolling independent from player movement
-- Modular architecture using ES modules (Player, Level, Collision, Input, Game Loop)
+- Modular architecture using ES modules
 
-A major part of development involved learning where **simplicity beats overengineering**, especially around game state and flow.
+The codebase is intentionally kept readable and easy to reason about.
 
 ---
 
-## Game Flow & State Handling
+## Architecture Snapshot
 
-Managing game flow turned out to be one of the most challenging aspects of the project so far.
+- Game logic and rendering are **decoupled**
+- Rendering is handled by a dedicated **RenderSystem**
+- Visual configuration is centralized in **Theme objects**
+- Game entities focus on gameplay state and behavior only
 
-Through multiple iterations, I learned to:
-
-- Distinguish between stopping the **camera** and stopping the **world**
-- Avoid overcomplicating state management early
-- Keep game state explicit and readable
-
-The current implementation includes:
-
-- Playing, paused, and game-over states
-- A **level-over state** where the camera stops scrolling while the player and world simulation continue running
-
-This approach stabilized gameplay while keeping the logic understandable.
+The architecture is being evolved incrementally to maintain a playable game at all times.
 
 ---
 
@@ -52,25 +44,22 @@ This approach stabilized gameplay while keeping the logic understandable.
 
 - Physics-based player movement
 - Platform-based level layout
-- Obstacles and a visible level goal (castle)
+- Obstacles and visible level goal
 - Camera scrolling system
-- Pause and game-over handling
-- Level-over state with stopped camera
-- Modular, readable code structure
+- Pause, game-over, and level-over states
+- Theme-driven visuals
 
 ---
 
-## Project Status & Next Steps
+## Project Status
 
 This is an **ongoing learning project**, not a finished game.
 
-Current focus moving forward:
+Planned next steps include:
 
 - Restart and next-level flow
-- Small, intentional refactors
-- Further improving code organization without breaking working behavior
-
-The goal is to continue expanding the game while keeping the logic simple and understandable.
+- Completing the rendering migration for remaining entities
+- Continued small, intentional refactors
 
 ---
 
