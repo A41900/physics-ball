@@ -45,35 +45,21 @@ export default class Game {
   loop(time) {
     const dt = this.time.delta(time);
 
-    if (this.input.justPressed("space")) {
-      this.state.triggerPause();
-    }
+    this.handleInput();
+    this.handleMusic();
 
-    if (this.state.gameOver) {
+    if (this.state.isGameOver()) {
       this.showGameOver();
-    } else if (this.state.paused) {
+    } else if (this.state.isPaused()) {
       this.showOnPause();
-    } else {
+    } else if (this.state.isPlaying()) {
       this.hideOverlay();
-      this.update(dt);
+      this.updateSimulation(dt);
+      this.checkTransitions();
     }
-
     this.render();
     this.input.update();
     requestAnimationFrame(this.loop.bind(this));
-  }
-
-  update(dt) {
-    this.handleMusic();
-
-    this.world.x += CONFIG.world.speed * dt;
-    this.player.update(this.input, dt);
-    this.collisions.resolvePlayer(this.player);
-
-    if (this.checkGameOver()) {
-      this.state.triggerGameOver();
-      this.music.pause();
-    }
   }
 
   render() {
@@ -81,16 +67,37 @@ export default class Game {
     this.player.render(this.world.x);
   }
 
+  /*Game Rules*/
+  checkTransitions() {
+    if (this.checkGameOver()) {
+      this.state.setGameOver();
+      this.music.pause();
+    }
+  }
   checkGameOver() {
     const screenX = this.player.x - this.world.x;
     return screenX + this.player.width <= 0;
   }
 
-  showGameOver() {
-    this.overlay.classList.remove("hidden");
-    this.overlayText.textContent = "GAME OVER";
+  updateSimulation(dt) {
+    this.world.x += CONFIG.world.speed * dt;
+    this.player.update(this.input, dt);
+    this.collisions.resolvePlayer(this.player);
   }
 
+  handleInput() {
+    if (this.input.justPressed("space")) {
+      this.state.togglePause();
+    }
+  }
+
+  /* migrar p audio manager */
+  handleMusic() {
+    if (this.input.any && !this.musicStarted) {
+      this.music.play();
+      this.musicStarted = true;
+    }
+  }
   startMusic() {
     if (!this.musicStarted) {
       this.music.play();
@@ -98,11 +105,11 @@ export default class Game {
     }
   }
 
-  handleMusic() {
-    if (this.input.any && !this.musicStarted) {
-      this.music.play();
-      this.musicStarted = true;
-    }
+  /*vou migrar para GAME_UI maybe*/
+
+  showGameOver() {
+    this.overlay.classList.remove("hidden");
+    this.overlayText.textContent = "GAME OVER";
   }
 
   showOnPause() {

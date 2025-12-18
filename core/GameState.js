@@ -1,21 +1,31 @@
 export default class GameState {
   constructor() {
-    this.paused = false;
-    this.gameOver = false;
+    this.state = "playing";
   }
 
-  triggerPause() {
-    if (this.gameOver) return;
-    this.paused = !this.paused;
+  isPlaying() {
+    return this.state === "playing";
   }
 
-  triggerGameOver() {
-    this.gameOver = true;
-    this.paused = true;
+  isPaused() {
+    return this.state === "paused";
+  }
+
+  isGameOver() {
+    return this.state === "gameover";
+  }
+
+  togglePause() {
+    if (this.state === "gameover") return;
+
+    this.state = this.state === "paused" ? "playing" : "paused";
+  }
+
+  setGameOver() {
+    this.state = "gameover";
   }
 
   reset() {
-    this.paused = false;
-    this.gameOver = false;
+    this.state = "playing";
   }
 }
