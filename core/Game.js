@@ -4,8 +4,8 @@ import Collision from "../systems/Collision.js";
 import { createInput } from "../systems/input.js";
 import { CONFIG } from "../config.js";
 import Time from "./Time.js";
-import GameState from "./GameState.js";
-import MusicManager from "./MusicManager.js";
+import { createGameState } from "./GameState.js";
+import { createMusicManager } from "./MusicManager.js";
 import { THEMES } from "../themes/index.js";
 import RenderSystem from "../systems/RenderSystem.js";
 
@@ -25,7 +25,9 @@ export default class Game {
       CONFIG.player.height,
       this.theme
     );
+
     this.level = new Level(1, gameEl);
+    console.log("GAME CONSTRUCTOR");
 
     this.collisions = new Collision(gameEl, this.level);
 
@@ -35,7 +37,7 @@ export default class Game {
       obstacles: this.level.obstacles,
     };
 
-    this.music = new MusicManager();
+    this.music = createMusicManager();
     this.started = false;
     this.time = new Time();
     this.screenBottom = this.gameEl.clientHeight;
@@ -43,7 +45,7 @@ export default class Game {
     this.overlay = document.getElementById("game-overlay");
     this.overlayText = document.getElementById("overlay-text");
 
-    this.state = new GameState();
+    this.state = createGameState();
 
     this.state.on("playing", () => {
       this.music.resume();

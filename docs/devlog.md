@@ -136,3 +136,31 @@ Rendering responsibilities were fully migrated into the RenderSystem.
 RenderableEntity was removed and Level no longer handles DOM or rendering logic.
 
 ## This marks the completion of the transition to a data + systems architecture.
+
+---
+
+## Phase 9 — Flow Controllers as Closure Modules
+
+After completing the RenderSystem migration, a remaining architectural
+inconsistency became clear around flow-oriented components such as
+GameState and MusicManager.
+
+Both were implemented as instantiable classes, despite:
+
+- existing only once during the game lifecycle
+- coordinating flow and side effects rather than representing entities
+- holding internal state that should not be freely mutable
+
+This mismatch was not a functional problem, but a semantic one.
+
+To better reflect their role, these components were refactored into
+**closure-based modules**:
+
+- internal state is encapsulated and inaccessible from the outside
+- all state transitions occur through explicit APIs
+- unnecessary concepts such as constructors, `this`, and `new` were removed
+
+This refactor aligns flow controllers with the existing data + systems
+architecture and clarifies ownership of global game state and side effects.
+
+This phase focuses on structural correctness rather than adding new features.

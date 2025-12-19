@@ -2,13 +2,17 @@ import Obstacle from "../entities/Obstacle.js";
 import Platform from "../entities/Platform.js";
 
 export default class Level {
-  constructor(levelNumber, worldHeight) {
+  constructor(levelNumber, gameEl) {
+    console.log("GAME CONSTRUCTOR");
+
     this.platforms = Level.createPlatforms(levelNumber);
     this.obstacles = Level.createObstacles(levelNumber);
 
     this.endX = 1000;
     this.deathX = 40;
-    this.deathY = worldHeight + 40;
+    this.deathY = gameEl.clientHeight + 40;
+    console.log(gameEl.clientHeight);
+    console.log(this.deathX, this.deathY, this.endX);
   }
 
   destroy() {

@@ -18,6 +18,7 @@ At a high level:
 - `Game` orchestrates the loop and state transitions
 - Entities hold gameplay state and behavior
 - Systems operate on entities and world data
+- Flow controllers coordinate global state and side effects
 - Themes define visual configuration
 
 ---
@@ -32,6 +33,7 @@ Responsibilities:
 
 - Owns the main game loop
 - Coordinates input, simulation, rendering, and state transitions
+- Owns global state and flow controllers
 - Holds references to world state and entities
 - Does not perform rendering directly
 
@@ -54,28 +56,24 @@ while the simulation can continue running.
 
 ---
 
-### Entities
+## Entities
 
 Entities represent **gameplay state and behavior only**.
+Entities are modeled as classes, as they represent
+things that exist in the game world and may have multiple instances.
 
-They do **not**:
-
-- manipulate the DOM
-- select sprites
-- apply visual styles
-
-#### Player
+### Player
 
 - Movement and physics
-- Input-driven state (`state`, `facing`)
+- Input-driven logical state (`state`, `facing`)
 - Collision response
 
-#### Platform
+### Platform
 
 - Position and collision surface
-- No visual responsibility (migration ongoing)
+- No visual responsibility
 
-#### Obstacle
+### Obstacle
 
 - Collision behavior
 - Type-based interaction (hazard / goal)
@@ -126,6 +124,32 @@ Responsibilities:
 
 ---
 
+## Flow Controllers
+
+Flow controllers coordinate **global game flow and side effects**.
+They exist once per game lifecycle and do not represent entities.
+
+They are implemented as **closure-based modules** to:
+
+- encapsulate internal state
+- prevent invalid external mutation
+- make ownership explicit
+- avoid unnecessary class semantics
+
+### GameState
+
+**Role:** Game flow control
+
+Responsibilities:
+
+- Track the current game state (`playing`, `paused`, `gameover`, `levelover`)
+- Control valid state transitions
+- Notify interested systems of state changes
+
+GameState does not represent an entity and is not instantiable as a class.
+
+---
+
 ### MusicManager
 
 **Role:** Side-effect management (audio)
@@ -137,21 +161,7 @@ Responsibilities:
 - React to explicit game state transitions
 - Prevent unintended audio side effects
 
----
-
-## Game State
-
-Game flow is controlled via an explicit finite state model.
-
-Current states:
-
-- `playing`
-- `paused`
-- `gameover`
-- `levelover`
-
-State transitions are handled centrally and explicitly,
-preventing invalid state combinations.
+MusicManager owns audio state and exposes a minimal, explicit API.
 
 ---
 
@@ -178,6 +188,7 @@ The architecture follows these guiding principles:
 - Prefer composition over inheritance
 - Keep entities small and focused
 - Centralize side effects
+- Make ownership explicit
 - Favor clarity over abstraction
 - Migrate incrementally, not via rewrites
 
@@ -185,21 +196,22 @@ The architecture follows these guiding principles:
 
 ## Current Status
 
-The project is in a **hybrid state**:
+The project has completed its initial transition to a
+**data + systems architecture**:
 
-- Player rendering is fully migrated to RenderSystem
-- Platform and obstacle rendering are in progress
-- Some legacy rendering paths still exist intentionally
+- Rendering is fully decoupled from entities
+- Flow controllers are isolated from gameplay logic
+- Themes centralize all visual configuration
 
-This state is temporary and controlled.
+Some areas are still intentionally evolving.
 
 ---
 
 ## Open Architectural Questions
 
-- Should `RenderableEntity` be removed entirely?
-- Should all rendering remain DOM-based?
+- Should rendering remain DOM-based long-term?
 - How far should systems be generalized?
-- When to stop abstracting and ship features?
+- When does abstraction stop serving learning goals?
+- Which future features justify additional complexity?
 
-These questions are intentionally left open and revisited as the project evolves.
+These questions remain open and are revisited as the project evolves.

@@ -1,55 +1,52 @@
-export default class MusicManager {
-  constructor() {
-    this.unlocked = false;
-    this.current = null;
+export function createMusicManager() {
+  let unlocked = false;
+  let current = null;
 
-    this.tracks = {
-      arcade: new Audio("./assets/arcade.wav"),
-      death: new Audio("./assets/death.mp3"),
-      victory: new Audio("./assets/victory.wav"),
-    };
+  const tracks = {
+    arcade: new Audio("assets/arcade.wav"),
+    death: new Audio("assets/death.mp3"),
+    victory: new Audio("assets/victory.wav"),
+  };
 
-    this.tracks.arcade.loop = true;
-    this.tracks.arcade.volume = 0.2;
-    this.tracks.death.volume = 0.2;
-    this.tracks.victory.volume = 0.2;
+  tracks.arcade.loop = true;
+
+  Object.values(tracks).forEach((track) => {
+    track.volume = 0.2;
+  });
+
+  function unlock() {
+    if (unlocked) return;
+    unlocked = true;
   }
 
-  unlock() {
-    this.unlocked = true;
-  }
+  function play(name) {
+    if (!unlocked) return;
 
-  play(name) {
-    if (!this.unlocked) return;
-
-    const track = this.tracks[name];
-    if (!track) return;
-
-    if (this.current === track) return;
-
-    this.stop();
-    this.current = track;
-    track.currentTime = 0;
-    track.play();
-  }
-
-  resume() {
-    if (this.current && this.unlocked) {
-      this.current.play();
+    if (current) {
+      current.pause();
+      current.currentTime = 0;
     }
+
+    current = tracks[name];
+    if (!current) return;
+
+    current.play();
   }
 
-  pause() {
-    if (this.current) {
-      this.current.pause();
-    }
+  function pause() {
+    if (!current) return;
+    current.pause();
   }
 
-  stop() {
-    if (this.current) {
-      this.current.pause();
-      this.current.currentTime = 0;
-      this.current = null;
-    }
+  function resume() {
+    if (!current || !unlocked) return;
+    current.play();
   }
+
+  return {
+    unlock,
+    play,
+    pause,
+    resume,
+  };
 }

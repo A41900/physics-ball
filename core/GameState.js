@@ -1,46 +1,50 @@
-export default class GameState {
-  constructor() {
-    this.state = "playing";
-    this.listeners = {};
+export function createGameState() {
+  let state = "playing";
+  const listeners = {};
+
+  function get() {
+    return state;
   }
 
-  // usado no switch(this.state.get())
-  get() {
-    return this.state;
+  function on(event, fn) {
+    (listeners[event] ||= []).push(fn);
   }
 
-  on(event, fn) {
-    (this.listeners[event] ||= []).push(fn);
+  function emit(event) {
+    listeners[event]?.forEach((fn) => fn());
   }
 
-  emit(event) {
-    this.listeners[event]?.forEach((fn) => fn());
+  function set(newState) {
+    if (state === newState) return;
+    state = newState;
+    emit(state);
   }
 
-  // usado em handleInput()
-  togglePause() {
-    if (this.state !== "playing" && this.state !== "paused") return;
-
-    this.state = this.state === "paused" ? "playing" : "paused";
-    this.emit(this.state);
+  function togglePause() {
+    if (state !== "playing" && state !== "paused") return;
+    set(state === "paused" ? "playing" : "paused");
   }
 
-  // usado em checkTransitions()
-  setGameOver() {
-    if (this.state === "gameover") return;
-    this.state = "gameover";
-    this.emit("gameover");
+  function setGameOver() {
+    if (state === "gameover") return;
+    set("gameover");
   }
 
-  // usado em checkTransitions()
-  setLevelOver() {
-    if (this.state === "levelover") return;
-    this.state = "levelover";
-    this.emit("levelover");
+  function setLevelOver() {
+    if (state === "levelover") return;
+    set("levelover");
   }
 
-  // usado em updateSimulation()
-  isLevelOver() {
-    return this.state === "levelover";
+  function isLevelOver() {
+    return state === "levelover";
   }
+
+  return {
+    get,
+    on,
+    togglePause,
+    setGameOver,
+    setLevelOver,
+    isLevelOver,
+  };
 }
