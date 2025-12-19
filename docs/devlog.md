@@ -164,3 +164,49 @@ This refactor aligns flow controllers with the existing data + systems
 architecture and clarifies ownership of global game state and side effects.
 
 This phase focuses on structural correctness rather than adding new features.
+
+---
+
+## Phase 10 — Rethinking Gameplay Rules (Context-Bound Rules)
+
+At this stage of the project, the main challenge was not functionality,
+but **readability and responsibility boundaries**.
+
+As more game logic accumulated, the `Game` class began to mix:
+
+- rule evaluation
+- state transitions
+- UI concerns
+- orchestration logic
+
+This resulted in code that worked, but was increasingly difficult to
+_read linearly_ and reason about.
+
+---
+
+### Initial Options Considered
+
+Several approaches were explored for organizing gameplay rules:
+
+- **Methods inside `Game`**
+  - Simple, but led to large conditional blocks
+  - Required passing or referencing many dependencies
+- **Static rule tables**
+  - Declarative, but required explicit context plumbing
+  - Felt noisy for simple rules
+- **Rule classes**
+  - Introduced unnecessary instantiation and ceremony
+  - Did not improve readability
+
+All of these approaches technically worked, but none solved the core issue:
+**rules were still verbose to call and hard to read in flow**.
+
+---
+
+### Chosen Approach — Context-Bound Rules via Closures
+
+The final solution was to model gameplay rules as a **closure-bound module**:
+
+```js
+createRules({ player, world, level });
+```

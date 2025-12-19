@@ -1,10 +1,16 @@
-export default class GameRules {
-  static playerIsDead(game) {
-    const screenX = game.player.x - game.world.x;
-    return screenX + game.player.width <= 0;
-  }
+export function createRules({ player, world, level }) {
+  return {
+    playerIsDead() {
+      const screenX = player.x - world.x;
+      return screenX + player.width < -level.deathX || player.y > level.deathY;
+    },
 
-  static levelIsComplete(game) {
-    return game.world.x >= game.level.endX;
-  }
+    levelCompleted() {
+      return level.obstacles.some((o) => o.type === "goal" && o.hits(player));
+    },
+
+    cameraShouldStop() {
+      return world.x >= level.endX;
+    },
+  };
 }
