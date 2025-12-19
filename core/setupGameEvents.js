@@ -6,5 +6,6 @@ export function setupGameEvents(state, music, ui) {
 
   state.on("gameover", ui.showGameOver);
   state.on("paused", ui.showPause);
+  state.on("levelover", ui.showLevelOver);
   state.on("playing", ui.hide);
 }

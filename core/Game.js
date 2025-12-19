@@ -16,6 +16,7 @@ export default class Game {
   constructor(gameEl) {
     this.gameEl = gameEl;
     this.world = { x: 0 };
+
     this.input = createInput();
 
     this.theme = THEMES.arcade;
@@ -46,12 +47,10 @@ export default class Game {
 
     this.music = createMusicManager();
     this.state = createGameState();
-
-    this.started = false;
-    this.time = new Time();
-    this.screenBottom = this.gameEl.clientHeight;
-
     this.gameUI = createGameUI();
+    this.musicStarted = false;
+    this.time = new Time();
+
     setupGameEvents(this.state, this.music, this.gameUI);
   }
 
@@ -98,14 +97,15 @@ export default class Game {
   }
 
   handleInput() {
-    if (this.input.any && !this.started) {
-      this.started = true;
+    if (this.input.any && !this.musicStarted) {
+      this.musicStarted = true;
       this.music.unlock();
       this.music.play("arcade");
       return; //  evita pause no mesmo frame
     }
     if (this.input.justPressed("space")) {
-      this.state.togglePause();
+      const current = this.state.get();
+      this.state.set(current === "paused" ? "playing" : "paused");
     }
   }
 
