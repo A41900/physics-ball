@@ -12,7 +12,6 @@ export default function renderObstacle(obstacle, world, theme, gameEl) {
     obstacle.el.appendChild(img);
     gameEl.appendChild(obstacle.el);
   }
-
   const img = obstacle.el.querySelector("img");
 
   // escolher sprite via theme
@@ -20,7 +19,6 @@ export default function renderObstacle(obstacle, world, theme, gameEl) {
   if (sprite) {
     img.src = sprite;
   }
-
   // posicionar no mundo
   obstacle.el.style.left = obstacle.x - world.x + "px";
   obstacle.el.style.top = obstacle.y + "px";

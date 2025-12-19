@@ -4,6 +4,7 @@ import { CONFIG } from "../config.js";
 export default class Player extends Entity {
   constructor(x, y, width, height) {
     super(x, y, width, height);
+    this.name = "player";
 
     this.vx = 0;
     this.vy = 0;

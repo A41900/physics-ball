@@ -4,6 +4,7 @@ export default class Obstacle extends Entity {
   constructor({ x, y, width, height, type = "hazard" }) {
     super(x, y, width, height);
     this.type = type;
+    this.name = `obstacle obstacle-${type}`;
   }
 
   hits(player) {

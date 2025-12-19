@@ -7,7 +7,7 @@ import Time from "./Time.js";
 import { createGameState } from "./GameState.js";
 import { createMusicManager } from "./MusicManager.js";
 import { THEMES } from "../themes/index.js";
-import RenderSystem from "../systems/RenderSystem.js";
+import { renderSystem, applyTheme } from "../systems/RenderSystem.js";
 import { createGameUI } from "./GameUI.js";
 import { createRules } from "./GameRules.js";
 import { setupGameEvents } from "./setupGameEvents.js";
@@ -20,7 +20,7 @@ export default class Game {
     this.input = createInput();
 
     this.theme = THEMES.arcade;
-    this.applyTheme();
+    applyTheme(this.theme, this.gameEl);
 
     this.player = new Player(
       200,
@@ -72,7 +72,7 @@ export default class Game {
       this.checkTransitions(dt);
     }
 
-    RenderSystem(this.world, this.entities, this.theme, this.gameEl);
+    renderSystem(this.world, this.entities, this.theme, this.gameEl);
     this.input.update();
     requestAnimationFrame(this.loop.bind(this));
   }
@@ -107,10 +107,5 @@ export default class Game {
       const current = this.state.get();
       this.state.set(current === "paused" ? "playing" : "paused");
     }
-  }
-
-  applyTheme() {
-    const bg = this.theme.background;
-    this.gameEl.style.background = `url("${bg.image}") ${bg.position} / ${bg.size} no-repeat`;
   }
 }

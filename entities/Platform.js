@@ -3,6 +3,7 @@ import Entity from "./Entity.js";
 export default class Platform extends Entity {
   constructor(x, y, width, height) {
     super(x, y, width, height);
+    this.name = "platform";
   }
 
   canPlayerLand(player) {
