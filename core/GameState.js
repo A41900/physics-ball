@@ -1,9 +1,15 @@
-export function createGameState() {
-  let state = "playing";
+export function createGameState(initial = "playing") {
+  let state = initial;
   const listeners = {};
 
   function get() {
     return state;
+  }
+
+  function set(next) {
+    if (state === next) return;
+    state = next;
+    emit(next);
   }
 
   function on(event, fn) {
@@ -14,37 +20,9 @@ export function createGameState() {
     listeners[event]?.forEach((fn) => fn());
   }
 
-  function set(newState) {
-    if (state === newState) return;
-    state = newState;
-    emit(state);
-  }
-
-  function togglePause() {
-    if (state !== "playing" && state !== "paused") return;
-    set(state === "paused" ? "playing" : "paused");
-  }
-
-  function setGameOver() {
-    if (state === "gameover") return;
-    set("gameover");
-  }
-
-  function setLevelOver() {
-    if (state === "levelover") return;
-    set("levelover");
-  }
-
-  function isLevelOver() {
-    return state === "levelover";
-  }
-
   return {
     get,
+    set,
     on,
-    togglePause,
-    setGameOver,
-    setLevelOver,
-    isLevelOver,
   };
 }

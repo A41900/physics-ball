@@ -210,3 +210,41 @@ The final solution was to model gameplay rules as a **closure-bound module**:
 ```js
 createRules({ player, world, level });
 ```
+
+---
+
+## Phase 11 — Separating State Decisions from State Reactions
+
+At this point, the `Game` class was handling two different concerns:
+
+- deciding _when_ the game state changes
+- reacting _to_ those changes (music, UI)
+
+Although functional, this blurred responsibility boundaries and made `Game`
+harder to reason about as new states and reactions were added.
+
+To address this, reactions to `GameState` changes were extracted into a
+dedicated setup module.
+
+### setupGameEvents
+
+A new module was introduced to centralize all reactions to game state changes.
+
+Its responsibilities are limited to:
+
+- subscribing to `GameState` events
+- coordinating MusicManager behavior
+- triggering UI updates
+
+This module contains no gameplay logic and no simulation code.
+
+### Resulting Improvements
+
+- `Game` now focuses on orchestration and the game loop
+- Side effects (audio, UI) are no longer mixed with gameplay flow
+- State transitions remain explicit and easy to follow
+- The codebase is better prepared for additional states and features
+
+This refactor does not add new functionality.
+Its purpose is to reduce cognitive load and stabilize structure before
+continuing gameplay development.

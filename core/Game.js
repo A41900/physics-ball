@@ -10,6 +10,7 @@ import { THEMES } from "../themes/index.js";
 import RenderSystem from "../systems/RenderSystem.js";
 import { createGameUI } from "./GameUI.js";
 import { createRules } from "./GameRules.js";
+import { setupGameEvents } from "./setupGameEvents.js";
 
 export default class Game {
   constructor(gameEl) {
@@ -51,26 +52,7 @@ export default class Game {
     this.screenBottom = this.gameEl.clientHeight;
 
     this.gameUI = createGameUI();
-
-    this.state.on("playing", () => {
-      this.music.resume();
-    });
-
-    this.state.on("paused", () => {
-      this.music.pause();
-    });
-
-    this.state.on("gameover", () => {
-      this.music.play("death");
-    });
-
-    this.state.on("levelover", () => {
-      this.music.play("victory");
-    });
-
-    this.state.on("gameover", this.gameUI.showGameOver);
-    this.state.on("paused", this.gameUI.showPause);
-    this.state.on("playing", this.gameUI.hide);
+    setupGameEvents(this.state, this.music, this.gameUI);
   }
 
   start() {
@@ -81,7 +63,6 @@ export default class Game {
     const dt = this.time.delta(time);
 
     this.handleInput();
-
     const state = this.state.get();
 
     if (state === "playing" || state === "levelover") {
@@ -99,11 +80,11 @@ export default class Game {
 
   checkTransitions(dt) {
     if (this.rules.playerIsDead()) {
-      this.state.setGameOver();
+      this.state.set("gameover");
     }
 
     if (this.rules.levelCompleted()) {
-      this.state.setLevelOver();
+      this.state.set("levelover");
     }
 
     if (!this.rules.cameraShouldStop()) {
