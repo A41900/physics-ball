@@ -63,6 +63,7 @@ export default class Game {
 
     this.handleInput();
     const state = this.state.get();
+    console.log(state);
 
     if (state === "playing" || state === "levelover") {
       this.updateSimulation(dt);
@@ -80,6 +81,7 @@ export default class Game {
   checkTransitions(dt) {
     if (this.rules.playerIsDead()) {
       this.state.set("gameover");
+      return;
     }
 
     if (this.rules.levelCompleted()) {
@@ -100,12 +102,17 @@ export default class Game {
     if (this.input.any && !this.musicStarted) {
       this.musicStarted = true;
       this.music.unlock();
-      this.music.play("arcade");
+      this.music.play("journey");
       return; //  evita pause no mesmo frame
     }
     if (this.input.justPressed("space")) {
       const current = this.state.get();
       this.state.set(current === "paused" ? "playing" : "paused");
+    }
+
+    if (this.input.justPressed("jump")) {
+      // this.music.play("jump");
+      //this.music.play()
     }
   }
 }

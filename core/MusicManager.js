@@ -6,6 +6,8 @@ export function createMusicManager() {
     arcade: new Audio("assets/arcade.wav"),
     death: new Audio("assets/death.mp3"),
     victory: new Audio("assets/victory.wav"),
+    jump: new Audio("assets/jump.mp3"),
+    journey: new Audio("assets/journey.wav"),
   };
 
   tracks.arcade.loop = true;

@@ -67,56 +67,59 @@ This was the first sign that architecture would matter as much as mechanics.
 
 ## Phase 3 — Camera Control and Level Completion
 
-The idea of a `levelover` state was clear from the start.
-I knew I wanted the camera to stop while the player and world kept updating.
+At this stage, the goal was to make the game constantly move forward.
+The world would scroll endlessly, giving the feeling that everything
+was in motion, not just the player.
 
-The problem wasn’t the idea — it was the structure.
+At the same time, I already knew I wanted a `levelover` state where:
 
-Game state, camera movement, and world logic were too mixed together,
-which made it hard to reason about what should stop and what shouldn’t.
-Because of that, every attempt at `levelover` either froze too much
-or didn’t stop the camera correctly.
+- the world would stop moving
+- but the player would still be able to move and interact
 
-This only became solvable after simplifying responsibilities:
+Conceptually this was clear, but implementing it was not.
 
-- camera scrolling became just `world.x`
-- stopping the camera meant freezing that value
-- the rest of the simulation could continue normally
+Making the game move was easier than making it stop.
+World movement, camera behavior, and game state were all mixed together,
+so it was hard to isolate what should freeze and what should continue.
 
-This phase wasn’t about discovering a concept,
-but about realizing how messy structure can block even clear intentions.
+Through trial and error, it became clear that `world.x` was the key variable.
+It effectively acted as the camera.
+Stopping the world meant freezing `world.x`, while letting the rest of the
+simulation continue normally.
+
+This phase also exposed how unstable the existing state handling was.
+States existed, but there was no clear or consistent way to store,
+transition, or reason about them.
+
+What made this phase difficult wasn’t a lack of ideas,
+but the lack of a structure that allowed those ideas to exist cleanly.
 
 ---
 
 ## Phase 4 — Audio Lifecycle and Side Effects
 
-Audio turned out to be much harder than expected, mostly because
-game states were not clearly defined yet.
+Audio problems surfaced as a direct consequence of unstable game states.
 
-Early versions had several issues:
+Sounds would restart every frame, play too fast to hear, loop unintentionally,
+or fail to trigger altogether.
+Pause and resume behavior was especially fragile.
 
-- audio starting and stopping every frame
-- sounds triggering too fast to be audible
-- music looping or restarting unintentionally
-- pause toggling breaking playback
-- game over / level over sounds not firing at all
+Initially, only the start music was easy to implement.
+Everything else depended on state transitions that were either unclear,
+too short-lived, or happening every frame.
 
-At first, only the initial music was easy to start.
-Everything else depended on state changes that either didn’t exist,
-weren’t stable, or happened too fast.
+As state handling slowly became more explicit, audio behavior also stabilized.
+Game over and level over sounds finally triggered correctly,
+and pause/resume became manageable.
 
-Only after clarifying game states did audio become predictable:
+However, this revealed another issue:
+the initial `playing` state was never explicitly entered.
+To avoid breaking audio again, the start music ended up being guarded
+by a simple boolean.
 
-- game over and level over sounds could finally trigger correctly
-- pause/resume behavior became controllable
-
-However, this introduced a new issue:
-the initial `playing` state was never explicitly triggered,
-so the start music had to be handled with a simple boolean guard.
-
-This phase made it clear that audio is extremely sensitive to
-state design, and that unclear state flow quickly turns into
-hard-to-debug side effects.
+This phase reinforced how tightly audio behavior is coupled to
+state clarity, and how fragile side effects become when state flow
+is poorly defined.
 
 ---
 
