@@ -9,11 +9,18 @@ export function createGameUI(root = document) {
 
   function hide() {
     overlay.classList.add("hidden");
+    root.getElementById("settings-panel").classList.add("hidden");
   }
 
   return {
-    showGameOver: () => show("GAME OVER"),
-    showPause: () => show("GAME PAUSED"),
+    showGameOver: () => {
+      show("GAME OVER");
+      root.getElementById("");
+    },
+    showPause: () => {
+      show("GAME PAUSED");
+      root.getElementById("settings-panel").classList.remove("hidden");
+    },
     showLevelOver: () => show("LEVEL UP :)"),
     hide,
   };

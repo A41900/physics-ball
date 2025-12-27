@@ -15,6 +15,7 @@ import { setupGameEvents } from "./setupGameEvents.js";
 export default class Game {
   constructor(gameEl) {
     this.gameEl = gameEl;
+
     this.world = { x: 0 };
 
     this.input = createInput();
@@ -45,13 +46,10 @@ export default class Game {
       level: this.level,
     });
 
-    this.music = createMusicManager();
     this.state = createGameState();
-    this.gameUI = createGameUI();
+    this.music = createMusicManager();
     this.musicStarted = false;
     this.time = new Time();
-
-    setupGameEvents(this.state, this.music, this.gameUI);
   }
 
   start() {

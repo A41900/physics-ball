@@ -3,13 +3,40 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Physics Ball</title>
+    <title>Mini game</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div id="game">
+      <div id="menu-panel">
+        <div class="how-to">
+          <h3>How to play</h3>
+          <p>Avoid falling</p>
+          <p>Use ↑ to jump</p>
+          <p>Use ← → to move</p>
+          <p>Use space to pause</p>
+          <p>Press play to start</p>
+          <p>Survive as long as possible</p>
+        </div>
+        <div class="menu-buttons">
+          <button data-action="play">Play</button>
+          <button data-action="restart">Restart</button>
+          <button data-action="exit">Exit</button>
+          <button data-action="options">Options</button>
+        </div>
+      </div>
+
       <div id="game-overlay" class="hidden">
         <span id="overlay-text"></span>
+        <div id="settings-panel" class="hidden">
+          <h3>Settings</h3>
+          <label>
+            Volume
+            <input type="range" min="0" max="1" step="0.01" />
+          </label>
+
+          <button data-action="close-settings">Close</button>
+        </div>
       </div>
     </div>
     <script type="module" src="script.js"></script>
