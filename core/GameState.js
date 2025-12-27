@@ -1,4 +1,4 @@
-export function createGameState(initial = "playing") {
+export function createGameState(initial = "idle") {
   let state = initial;
   const listeners = {};
 
@@ -20,9 +20,16 @@ export function createGameState(initial = "playing") {
     listeners[event]?.forEach((fn) => fn());
   }
 
+  function clear() {
+    Object.keys(listeners).forEach((key) => {
+      delete listeners[key];
+    });
+  }
+
   return {
     get,
     set,
     on,
+    clear,
   };
 }

@@ -44,6 +44,19 @@ export function createInput() {
     unlock() {
       this.locked = false;
     },
+
+    clear() {
+      this.left = false;
+      this.right = false;
+      this.jump = false;
+      this.space = false;
+      this.any = false;
+      this._prev.left = false;
+      this._prev.right = false;
+      this._prev.jump = false;
+      this._prev.space = false;
+      this.locked = false;
+    },
   };
 
   window.addEventListener("keydown", (e) => {

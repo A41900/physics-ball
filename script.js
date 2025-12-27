@@ -26,6 +26,7 @@ function startGame() {
   menu.hide();
 
   game = new Game(gameEl);
+  game.music.unlock();
   setupGameEvents(game.state, game.music, ui);
   game.state.set("playing");
   game.start();

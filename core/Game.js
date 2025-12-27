@@ -9,13 +9,12 @@ import { createMusicManager } from "./MusicManager.js";
 import { THEMES } from "../themes/index.js";
 import { renderSystem, applyTheme } from "../systems/RenderSystem.js";
 import { createRules } from "./GameRules.js";
-import { loadNextLevel } from "../world/Level.js";
+import { createLevel } from "../world/Level.js";
 
 export default class Game {
   constructor(gameEl) {
     this.gameEl = gameEl;
     this.world = { x: 0 };
-    this.input = createInput();
     this.theme = THEMES.arcade;
     applyTheme(this.theme, this.gameEl);
     this.player = new Player(
@@ -25,18 +24,19 @@ export default class Game {
       CONFIG.player.height,
       this.theme
     );
-    this.level = loadNextLevel(0, this.gameEl);
-    // tbm vem do level
+    this.input = createInput();
+    this.levelId = 1;
+    this.level = createLevel(this.levelId, this.gameEl);
     this.collisions = new Collision(gameEl, this.level);
     this.rules = createRules({
       player: this.player,
       world: this.world,
-      level: this.level.level,
+      level: this.level,
     });
 
     this.state = createGameState();
     this.music = createMusicManager();
-    this.musicStarted = false;
+    //this.musicStarted = false;
     this.time = new Time();
     this.running = true;
   }
@@ -47,8 +47,16 @@ export default class Game {
   }
 
   stop() {
-    this.level.level.destroy();
+    this.level.destroy();
+    this.input.clear();
+    //this.state.clear(); preciso do state idle :)
     this.running = false;
+  }
+
+  nextLevel() {
+    this.level.destroy();
+    this.levelId++;
+    this.level = createLevel(this.levelId, this.gameEl);
   }
 
   loop(time) {
@@ -73,8 +81,12 @@ export default class Game {
 
       if (this.level.levelOverTimer >= 5) {
         console.log("NEW LEVEL");
-        this.level.level.destroy();
-        loadNextLevel(this.level.level.id, this.gameEl);
+        this.nextLevel();
+        this.world.x = 0;
+        this.player.x = 200;
+        this.player.y = 200;
+        this.collisions = new Collision(this.gameEl, this.level);
+        this.state.set("playing");
       }
     }
 
@@ -119,12 +131,6 @@ export default class Game {
   }
 
   handleInput() {
-    if (this.input.any && !this.musicStarted) {
-      this.musicStarted = true;
-      this.music.unlock();
-      this.music.play("journey");
-      return; //  evita pause no mesmo frame
-    }
     if (this.input.justPressed("space")) {
       const current = this.state.get();
 

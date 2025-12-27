@@ -3,14 +3,13 @@ export function createMusicManager() {
   let current = null;
 
   const tracks = {
-    arcade: new Audio("assets/arcade.wav"),
+    journey: new Audio("assets/journey.wav"),
     death: new Audio("assets/death.mp3"),
     victory: new Audio("assets/victory.wav"),
     jump: new Audio("assets/jump.mp3"),
-    journey: new Audio("assets/journey.wav"),
   };
 
-  tracks.arcade.loop = true;
+  tracks.journey.loop = true;
 
   Object.values(tracks).forEach((track) => {
     track.volume = 0.2;
@@ -19,30 +18,53 @@ export function createMusicManager() {
   function unlock() {
     if (unlocked) return;
     unlocked = true;
+
+    // truque necessário para browsers
+    Object.values(tracks).forEach((track) => {
+      track.muted = true;
+      track.play().catch(() => {});
+      track.pause();
+      track.currentTime = 0;
+      track.muted = false;
+    });
   }
 
   function play(name) {
     if (!unlocked) return;
 
-    if (current) {
+    const next = tracks[name];
+    if (!next) return;
+
+    if (current && current !== next) {
       current.pause();
       current.currentTime = 0;
     }
 
-    current = tracks[name];
-    if (!current) return;
-
+    current = next;
     current.play();
   }
 
   function pause() {
-    if (!current) return;
-    current.pause();
+    current?.pause();
   }
 
   function resume() {
-    if (!current || !unlocked) return;
-    current.play();
+    if (!unlocked) return;
+    current?.play();
+  }
+
+  function isPlaying() {
+    return !!current && !current.paused;
+  }
+
+  // efeitos sonoros (jump, etc)
+  function sfx(name) {
+    if (!unlocked) return;
+    const sound = tracks[name];
+    if (!sound) return;
+
+    sound.currentTime = 0;
+    sound.play();
   }
 
   return {
@@ -50,5 +72,7 @@ export function createMusicManager() {
     play,
     pause,
     resume,
+    isPlaying,
+    sfx,
   };
 }
