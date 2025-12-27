@@ -1,14 +1,25 @@
 export function setupGameEvents(state, music, ui) {
-  state.on("playing", () => music.resume());
-  state.on("paused", () => music.pause());
-  state.on("gameover", () => music.play("death"));
-  state.on("levelover", () => music.play("victory"));
+  state.on("playing", () => {
+    music.resume();
+    ui.hideAll();
+  });
+  state.on("paused", () => {
+    music.pause();
+    ui.showPause();
+  });
+
+  state.on("levelover", () => {
+    music.play("victory");
+    ui.showLevelOver();
+  });
 
   state.on("gameover", () => {
+    music.play("death");
     ui.showGameOver();
-    music.lock();
   });
-  state.on("paused", ui.showPause);
-  state.on("levelover", ui.showLevelOver);
-  state.on("playing", ui.hide);
+
+  state.on("idle", () => {
+    music.pause();
+    ui.hideAll();
+  });
 }

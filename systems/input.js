@@ -7,6 +7,8 @@ export function createInput() {
     space: false,
     any: false,
 
+    locked: false,
+
     // estado anterior (privado por convenção)
     _prev: {
       left: false,
@@ -17,10 +19,12 @@ export function createInput() {
 
     // -------- EDGE DETECTION --------
     justPressed(key) {
+      if (this.locked) return false;
       return this[key] && !this._prev[key];
     },
 
     justReleased(key) {
+      if (this.locked) return false;
       return !this[key] && this._prev[key];
     },
 
@@ -30,6 +34,15 @@ export function createInput() {
       this._prev.right = this.right;
       this._prev.jump = this.jump;
       this._prev.space = this.space;
+      this.any = false;
+    },
+
+    lock() {
+      this.locked = true;
+    },
+
+    unlock() {
+      this.locked = false;
     },
   };
 

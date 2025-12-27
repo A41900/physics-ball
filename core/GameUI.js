@@ -1,27 +1,22 @@
 export function createGameUI(root = document) {
-  const overlay = root.getElementById("game-overlay");
-  const overlayText = root.getElementById("overlay-text");
+  const overlay = root.getElementById("overlay");
+  const sections = overlay.querySelectorAll("section");
 
-  function show(text) {
+  function showSection(id) {
+    hideAll();
     overlay.classList.remove("hidden");
-    overlayText.textContent = text;
+    document.getElementById(id).classList.remove("hidden");
   }
 
-  function hide() {
+  function hideAll() {
     overlay.classList.add("hidden");
-    root.getElementById("settings-panel").classList.add("hidden");
+    sections.forEach((e) => e.classList.add("hidden"));
   }
 
   return {
-    showGameOver: () => {
-      show("GAME OVER");
-      root.getElementById("");
-    },
-    showPause: () => {
-      show("GAME PAUSED");
-      root.getElementById("settings-panel").classList.remove("hidden");
-    },
-    showLevelOver: () => show("LEVEL UP :)"),
-    hide,
+    showPause: () => showSection("pausePanel"),
+    showGameOver: () => showSection("gameoverPanel"),
+    showLevelOver: () => showSection("leveloverPanel"),
+    hideAll: () => hideAll(),
   };
 }

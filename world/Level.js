@@ -4,10 +4,9 @@ import Platform from "../entities/Platform.js";
 export default class Level {
   constructor(levelNumber, gameEl) {
     console.log("GAME CONSTRUCTOR");
-
-    this.platforms = Level.createPlatforms(levelNumber);
-    this.obstacles = Level.createObstacles(levelNumber);
-
+    this.id = levelNumber + 1;
+    this.platforms = Level.createPlatforms(this.id);
+    this.obstacles = Level.createObstacles(this.id);
     this.endX = 1000;
     this.deathX = 40;
     this.deathY = gameEl.clientHeight + 40;
@@ -20,8 +19,8 @@ export default class Level {
     this.obstacles = [];
   }
 
-  static createPlatforms(levelNumber) {
-    switch (levelNumber) {
+  static createPlatforms(id) {
+    switch (id) {
       case 1:
         return [
           new Platform(130, 300, 130, 10),
@@ -42,8 +41,8 @@ export default class Level {
     }
   }
 
-  static createObstacles(levelNumber) {
-    switch (levelNumber) {
+  static createObstacles(id) {
+    switch (id) {
       case 1:
         return [
           new Obstacle({
@@ -60,4 +59,20 @@ export default class Level {
         return [];
     }
   }
+}
+
+export function loadNextLevel(x, gameEl) {
+  const level = new Level(x, gameEl);
+  const platforms = level.platforms;
+  const obstacles = level.obstacles;
+  const levelOverTimer = 0;
+
+  const obj = {
+    level: level,
+    platforms: platforms,
+    obstacles: obstacles,
+    levelOverTimer: levelOverTimer,
+  };
+
+  return obj;
 }

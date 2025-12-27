@@ -4,6 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Mini game</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Tiny5&display=swap"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -11,12 +15,13 @@
       <div id="menu-panel">
         <div class="how-to">
           <h3>How to play</h3>
-          <p>Avoid falling</p>
-          <p>Use ↑ to jump</p>
-          <p>Use ← → to move</p>
-          <p>Use space to pause</p>
-          <p>Press play to start</p>
-          <p>Survive as long as possible</p>
+          <ul>
+            <hr class="line" />
+            <li><span>↑</span> Jump</li>
+            <li><span>← →</span> Move</li>
+            <li><span>␣</span> Pause</li>
+            <li><span>⚠</span> Avoid falling</li>
+          </ul>
         </div>
         <div class="menu-buttons">
           <button data-action="play">Play</button>
@@ -25,18 +30,25 @@
           <button data-action="options">Options</button>
         </div>
       </div>
-
-      <div id="game-overlay" class="hidden">
-        <span id="overlay-text"></span>
-        <div id="settings-panel" class="hidden">
+      <div id="overlay" class="hidden">
+        <!-- PAUSE -->
+        <section id="pausePanel" class="panel hidden">
+          <p>Pause</p>
           <h3>Settings</h3>
           <label>
             Volume
             <input type="range" min="0" max="1" step="0.01" />
           </label>
+        </section>
 
-          <button data-action="close-settings">Close</button>
-        </div>
+        <!-- GAME OVER -->
+        <section id="gameoverPanel" class="panel hidden">
+          <p>Game Over</p>
+          <button data-action="backToMenu">Menu</button>
+        </section>
+        <section id="leveloverPanel" class="panel hidden">
+          <p>Level Up</p>
+        </section>
       </div>
     </div>
     <script type="module" src="script.js"></script>

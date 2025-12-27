@@ -1,5 +1,17 @@
-export function renderSystem(world, entities, theme, gameEl) {
-  renderEntity(entities.player, world, theme, gameEl);
+export function renderSystem(
+  gameEl,
+  world,
+  player,
+  platforms,
+  obstacles,
+  theme
+) {
+  const entities = {
+    player: player,
+    platforms: platforms,
+    obstacles: obstacles,
+  };
+  renderEntity(player, world, theme, gameEl);
   entities.platforms.forEach((p) => renderEntity(p, world, theme, gameEl));
   entities.obstacles.forEach((o) => renderEntity(o, world, theme, gameEl));
 }

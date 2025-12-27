@@ -1,22 +1,24 @@
 export function createMainMenu() {
-  const el = document.querySelector("#menu-panel");
+  const panel = document.querySelector("#menu-panel");
+  const buttons = document.querySelectorAll("[data-action]");
   const handlers = {};
 
-  el.addEventListener("click", (e) => {
-    const action = e.target.dataset.action;
-    if (!action) return;
-    handlers[action]?.();
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const action = btn.dataset.action;
+      handlers[action]?.();
+    });
   });
 
   return {
-    show() {
-      el.classList.remove("hidden");
-    },
-    hide() {
-      el.classList.add("hidden");
-    },
     on(action, cb) {
       handlers[action] = cb;
+    },
+    show() {
+      panel.classList.remove("hidden");
+    },
+    hide() {
+      panel.classList.add("hidden");
     },
   };
 }

@@ -8,21 +8,16 @@ import { createGameState } from "./GameState.js";
 import { createMusicManager } from "./MusicManager.js";
 import { THEMES } from "../themes/index.js";
 import { renderSystem, applyTheme } from "../systems/RenderSystem.js";
-import { createGameUI } from "./GameUI.js";
 import { createRules } from "./GameRules.js";
-import { setupGameEvents } from "./setupGameEvents.js";
+import { loadNextLevel } from "../world/Level.js";
 
 export default class Game {
   constructor(gameEl) {
     this.gameEl = gameEl;
-
     this.world = { x: 0 };
-
     this.input = createInput();
-
     this.theme = THEMES.arcade;
     applyTheme(this.theme, this.gameEl);
-
     this.player = new Player(
       200,
       200,
@@ -30,38 +25,58 @@ export default class Game {
       CONFIG.player.height,
       this.theme
     );
-
-    this.level = new Level(1, gameEl);
+    this.level = loadNextLevel(0, this.gameEl);
+    // tbm vem do level
     this.collisions = new Collision(gameEl, this.level);
-
-    this.entities = {
-      player: this.player,
-      platforms: this.level.platforms,
-      obstacles: this.level.obstacles,
-    };
-
     this.rules = createRules({
       player: this.player,
       world: this.world,
-      level: this.level,
+      level: this.level.level,
     });
 
     this.state = createGameState();
     this.music = createMusicManager();
     this.musicStarted = false;
     this.time = new Time();
+    this.running = true;
   }
 
   start() {
+    this.running = true;
     requestAnimationFrame(this.loop.bind(this));
   }
 
-  loop(time) {
-    const dt = this.time.delta(time);
+  stop() {
+    this.level.level.destroy();
+    this.running = false;
+  }
 
+  loop(time) {
+    if (!this.running) return;
+    const dt = this.time.delta(time);
     this.handleInput();
+
     const state = this.state.get();
     console.log(state);
+
+    if (state === "playing") {
+      this.input.unlock();
+    }
+
+    if (state === "gameover") {
+      this.input.lock();
+    }
+
+    if (state === "levelover") {
+      this.input.lock();
+      this.level.levelOverTimer += dt;
+
+      if (this.level.levelOverTimer >= 5) {
+        console.log("NEW LEVEL");
+        this.level.level.destroy();
+        loadNextLevel(this.level.level.id, this.gameEl);
+      }
+    }
 
     if (state === "playing" || state === "levelover") {
       this.updateSimulation(dt);
@@ -71,7 +86,15 @@ export default class Game {
       this.checkTransitions(dt);
     }
 
-    renderSystem(this.world, this.entities, this.theme, this.gameEl);
+    renderSystem(
+      this.gameEl,
+      this.world,
+      this.player,
+      this.level.platforms,
+      this.level.obstacles,
+      this.theme
+    );
+
     this.input.update();
     requestAnimationFrame(this.loop.bind(this));
   }
@@ -81,11 +104,10 @@ export default class Game {
       this.state.set("gameover");
       return;
     }
-
     if (this.rules.levelCompleted()) {
       this.state.set("levelover");
+      //this.level.levelOverTimer = 0;
     }
-
     if (!this.rules.cameraShouldStop()) {
       this.world.x += CONFIG.world.speed * dt;
     }
@@ -105,9 +127,13 @@ export default class Game {
     }
     if (this.input.justPressed("space")) {
       const current = this.state.get();
-      this.state.set(current === "paused" ? "playing" : "paused");
-    }
 
+      if (current === "playing") {
+        this.state.set("paused");
+      } else if (current === "paused") {
+        this.state.set("playing");
+      }
+    }
     if (this.input.justPressed("jump")) {
       // this.music.play("jump");
       //this.music.play()

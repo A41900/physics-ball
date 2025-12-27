@@ -10,19 +10,23 @@ let game = null;
 
 menu.show();
 menu.on("play", () => startGame());
-menu.on("restart", () => game?.reset());
-menu.on("exit", () => exitGame());
-menu.on("options", () => openOptions());
-menu.on("close", () => {});
+//menu.on("restart", () => game?.reset());
+//menu.on("exit", () => exitGame());
+//menu.on("options", () => openOptions());
+//menu.on("close", () => {});
+menu.on("backToMenu", () => {
+  game.stop();
+  game.state.set("idle");
+  menu.show();
+});
 
 function startGame() {
+  console.log("ola");
+  //game?.stop();
   menu.hide();
+
   game = new Game(gameEl);
   setupGameEvents(game.state, game.music, ui);
   game.state.set("playing");
   game.start();
-}
-
-function openOptions() {
-  // volume settings.
 }
